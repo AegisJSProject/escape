@@ -22,6 +22,13 @@ const _str = (str, fallback = '') => (str?.toString?.() ?? fallback);
 export const escapeHTML = str => _str(str)
 	.replaceAll(HTML_UNSAFE_PATTERN, char => HTML_REPLACEMENTS[char]);
 
+/**
+ * Tagged template function that automatically escapes interpolated values.
+ * @example html`<div class="${className}">${content}</div>`
+ */
+export function html(strings, ...values) {
+	return String.raw(strings, ...values.map(escapeHTML));
+}
 
 /**
  * Escapes characters that are unsafe or prohibited in HTML attribute names.
