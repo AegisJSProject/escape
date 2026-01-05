@@ -1,3 +1,1 @@
-import { MESSAGE } from 'npm-template/consts.js';
-console.log(import.meta);
-console.info(MESSAGE);
+export { HTML_UNSAFE_PATTERN, ATTR_NAME_UNSAFE_PATTERN, HTML_REPLACEMENTS, escapeHTML, escapeAttrName, stringifyAttr } from './html.js';

@@ -7,17 +7,19 @@ export default [{
 		format: 'cjs',
 	}, {
 		file: 'index.min.js',
-		format: 'iife',
+		format: 'module',
 		plugins: [terser()],
 		sourcemap: true,
-	}, {
-		file: 'index.mjs',
-		format: 'module',
 	}],
 }, {
-	input: 'consts.js',
-	output: {
-		file: 'consts.cjs',
+	input: 'html.js',
+	output: [{
+		file: 'html.cjs',
 		format: 'cjs',
-	}
+	}, {
+		file: 'html.min.js',
+		format: 'module',
+		plugins: [terser()],
+		sourcemap: true,
+	}],
 }];
