@@ -22,4 +22,15 @@ export default [{
 		plugins: [terser()],
 		sourcemap: true,
 	}],
+}, {
+	input: 'css.js',
+	output: [{
+		file: 'css.cjs',
+		format: 'cjs',
+	}, {
+		file: 'css.min.js',
+		format: 'module',
+		plugins: [terser()],
+		sourcemap: true,
+	}],
 }];

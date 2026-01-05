@@ -23,6 +23,10 @@
       "import": "./html.js",
       "require": "./html.cjs"
     },
+    "./css": {
+      "import": "./css.js",
+      "require": "./css.cjs"
+    },
     "./*.js": {
       "import": "./*.js",
       "require": "./*.cjs"
