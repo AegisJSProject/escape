@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { describe, test, before } from 'node:test';
-import { escapeHTML, escapeAttrName, stringifyAttr } from './html.js';
+import { escapeHTML, escapeAttrName, stringifyAttr, html } from './html.js';
 
 // Mock DOM Attr class for Node environment
 class MockAttr {
@@ -112,5 +112,25 @@ describe('Security Escaping Utils', () => {
 			const expected = '_003e__003c_img_0020_src_003d_x="&quot;&gt;&lt;script&gt;"';
 			assert.strictEqual(stringifyAttr(attr), expected);
 		});
+	});
+});
+
+describe('html tagged template', () => {
+	test('escapes interpolated values', () => {
+		const malicious = '<script>';
+		const output = html`<div>${malicious}</div>`;
+		assert.strictEqual(output, '<div>&lt;script&gt;</div>');
+	});
+
+	test('does not escape static template parts', () => {
+		const output = html`<span title="static"></span>`;
+		assert.strictEqual(output, '<span title="static"></span>');
+	});
+
+	test('handles multiple interpolations', () => {
+		const a = '<';
+		const b = '>';
+		const output = html`Start ${a} Middle ${b} End`;
+		assert.strictEqual(output, 'Start &lt; Middle &gt; End');
 	});
 });

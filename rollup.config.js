@@ -23,6 +23,17 @@ export default [{
 		sourcemap: true,
 	}],
 }, {
+	input: 'trusted-html.js',
+	output: [{
+		file: 'trusted-html.cjs',
+		format: 'cjs',
+	}, {
+		file: 'trusted-html.min.js',
+		format: 'module',
+		plugins: [terser()],
+		sourcemap: true,
+	}],
+}, {
 	input: 'css.js',
 	output: [{
 		file: 'css.cjs',

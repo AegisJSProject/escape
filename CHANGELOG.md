@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.2] - 2026-01-05
+
+### Added
+- Add `createPolicy()` to create a `TrustedTypePolicy` with a `createHTML()` that escapes untrusted input
+
 ## [v1.0.1] - 2026-01-05
 
 ### Added

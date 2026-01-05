@@ -7,7 +7,7 @@ addScriptSrc(
 	'https://unpkg.com/@shgysk8zer0/',
 );
 
-addTrustedTypePolicy('aegis-sanitizer#html');
+addTrustedTypePolicy('aegis-sanitizer#html', 'default');
 
 export default {
 	routes: {
