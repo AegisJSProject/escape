@@ -20,7 +20,7 @@ describe('Trusted HTML Policy (Node/Fallback Mode)', () => {
 		const items = ['<br>', '<b>bold</b>'];
 		const result = html`Items: ${items}`;
 
-		assert.strictEqual(result.toString(), 'Items: &lt;br&gt;,&lt;b&gt;bold&lt;/b&gt;');
+		assert.strictEqual(result.toString(), 'Items: &lt;br&gt;&lt;b&gt;bold&lt;/b&gt;');
 	});
 
 	test('Security: enforces Double Escaping in fallback mode', () => {

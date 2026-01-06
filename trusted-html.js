@@ -35,6 +35,12 @@ export function html(strings, ...values) {
 			? strings.map(input => isTrustedHTML(input) ? input : escapeHTML(input)).join('')
 			: escapeHTML(strings));
 	} else {
-		return policy.createHTML(String.raw(strings, ...values.map(val => isTrustedHTML(val) ? val : escapeHTML(val))));
+		return policy.createHTML(String.raw(
+			strings,
+			...values.map(val => Array.isArray(val)
+				? val.flatMap(v => isTrustedHTML(v) ? v : escapeHTML(v)).join('')
+				: isTrustedHTML(val) ? val : escapeHTML(val)
+			)
+		));
 	}
 }
