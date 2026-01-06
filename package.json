@@ -1,6 +1,6 @@
 {
   "name": "@aegisjsproject/escape",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "String escaping utilities for HTML and DOM attributes.",
   "keywords": [
     "security",

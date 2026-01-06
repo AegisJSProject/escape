@@ -1,4 +1,4 @@
-export const HTML_UNSAFE_PATTERN = /[<>"']|&(?![a-zA-Z\d]{2,5};|#\d{1,3};)/g;
+export const HTML_UNSAFE_PATTERN = /[<>"']|&(?![a-zA-Z\d]{2,40};|#\d{1,6};)/g;
 /* eslint no-control-regex: "off" */
 export const ATTR_NAME_UNSAFE_PATTERN = /[\u0000-\u001f\u007f-\u009f\s"'\\/=><&]/g;
 export const HTML_REPLACEMENTS = Object.freeze({

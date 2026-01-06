@@ -1,37 +1,40 @@
 import { escapeHTML } from './html.js';
 
 const SUPPORTS_TRUSTED_TYPES = 'trustedTypes' in globalThis;
-const isTrustedHTML = SUPPORTS_TRUSTED_TYPES ? globalThis.trustedTypes.isHTML : () => false;
+const POLICY_NAME = 'aegis-escape#html';
+const TRUSTED_SYMBOL = Symbol(POLICY_NAME);
 
-function createHTML(strings, ...values) {
+const isTrustedHTML = SUPPORTS_TRUSTED_TYPES
+	? input => globalThis.trustedTypes.isHTML(input)
+	: input => typeof input === 'object' ? Object.hasOwn(input ?? {}, TRUSTED_SYMBOL) : false;
+
+const policy = SUPPORTS_TRUSTED_TYPES
+	? globalThis.trustedTypes.createPolicy(POLICY_NAME, { createHTML: input => input })
+	: Object.freeze({
+		name: POLICY_NAME,
+		createHTML(input) {
+			const obj = {
+				toString() {
+					return input;
+				}
+			};
+
+			Object.defineProperty(obj, TRUSTED_SYMBOL, {
+				value: true,
+				enumerable: false,
+				writable: false,
+			});
+
+			return Object.freeze(obj);
+		}
+	});
+
+export function html(strings, ...values) {
 	if (! Array.isArray(strings) || ! Array.isArray(strings.raw)) {
-		return Array.isArray(strings)
-			? strings.map(escapeHTML).join('')
-			: escapeHTML(strings);
+		return policy.createHTML(Array.isArray(strings)
+			? strings.map(input => isTrustedHTML(input) ? input : escapeHTML(input)).join('')
+			: escapeHTML(strings));
 	} else {
-		return String.raw(strings, ...values.map(val => isTrustedHTML(val) ? val : escapeHTML(val)));
+		return policy.createHTML(String.raw(strings, ...values.map(val => isTrustedHTML(val) ? val : escapeHTML(val))));
 	}
-}
-
-/**
- * Creates a Trusted Types policy (or a compliant fallback) for sanitizing HTML.
- * The returned policy's `createHTML` method is overloaded to handle both direct string arguments
- * and tagged template literals.
- *
- * @param {string} [name="aegis-escape#html"] - The policy name. Must match your CSP `trusted-types` directive.
- * @returns {TrustedTypePolicy} A native Policy object or a frozen fallback matching the interface.
- *
- * @example
- * const policy = createPolicy();
- *
- * // 1. As a regular method:
- * policy.createHTML('<div>Hello</div>');
- *
- * // 2. As a tagged template:
- * policy.createHTML`<div>${userContent}</div>`;
- */
-export function createPolicy(name = 'aegis-escape#html') {
-	return SUPPORTS_TRUSTED_TYPES
-		? globalThis.trustedTypes.createPolicy(name, { createHTML })
-		: Object.freeze({ name, createHTML });
 }
