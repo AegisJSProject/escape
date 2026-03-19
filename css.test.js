@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import assert from 'node:assert';
 import { describe, test } from 'node:test';
 import { escapeCSS } from './css.js';
