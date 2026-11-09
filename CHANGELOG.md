@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.1] - 2026-10-06
+
+### Added
+- Add `escapeCSV`
+
 ## [v1.1.0] - 2026-06-15
 
 ### Added
